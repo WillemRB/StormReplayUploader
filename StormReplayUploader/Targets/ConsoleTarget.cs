@@ -12,5 +12,10 @@ namespace StormReplayUploader.Targets
         {
             Console.WriteLine(path);
         }
+
+        public void Subscribe(IObservable<string> observable)
+        {
+            observable.Subscribe(Notify);
+        }
     }
 }
