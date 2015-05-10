@@ -19,11 +19,14 @@ namespace StormReplayUploader
 
         private List<IStormReplayTarget> targets;
 
+        private UploaderConfiguration configuration;
+
         public ReplayWatcher()
         {
+            configuration = new UploaderConfiguration();
             targets = new List<IStormReplayTarget>();
 
-            watcher = new FileSystemWatcher(@"D:\");
+            watcher = new FileSystemWatcher(configuration.DefaultReplayDirectory, configuration.ReplayFilter);
 
             var observable = Observable
                 .FromEventPattern<FileSystemEventArgs>(watcher, "Created")
@@ -31,7 +34,6 @@ namespace StormReplayUploader
 
             var target = new ConsoleTarget();
             target.Subscribe(observable);
-
             targets.Add(target);
         }
 

@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive.Core">
       <HintPath>packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
@@ -61,7 +62,7 @@
     <Compile Include="ReplayWatcher.cs" />
     <Compile Include="Targets\ConsoleTarget.cs" />
     <Compile Include="Targets\IStormReplayTarget.cs" />
-    <Compile Include="UploaderSettings.cs" />
+    <Compile Include="UploaderConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
