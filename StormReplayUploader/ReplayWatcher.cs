@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using StormReplayUploader.Targets;
 
@@ -10,7 +13,7 @@ namespace StormReplayUploader
     /// </summary>
     public class ReplayWatcher
     {
-        private readonly FileSystemWatcher watcher;
+        private FileSystemWatcher watcher;
 
         private List<IStormReplayTarget> targets;
 
@@ -21,11 +24,8 @@ namespace StormReplayUploader
             configuration = new UploaderConfiguration();
             targets = new List<IStormReplayTarget>();
 
-            watcher = new FileSystemWatcher(configuration.DefaultReplayDirectory, configuration.ReplayFilter);
-
-            var observable = Observable
-                .FromEventPattern<FileSystemEventArgs>(watcher, "Created")
-                .Select(evt => evt.EventArgs.FullPath);
+            //var observable = FileSystemWatcherObservable();
+            var observable = PollingObservable();
 
             var target = new ConsoleTarget();
             target.Subscribe(observable);
@@ -34,12 +34,37 @@ namespace StormReplayUploader
 
         public void Start()
         {
-            watcher.EnableRaisingEvents = true;
+            if (watcher != null)
+            {
+                watcher.EnableRaisingEvents = true;
+            }
         }
 
         public void Stop()
         {
-            watcher.EnableRaisingEvents = false;
+            if (watcher != null)
+            {
+                watcher.EnableRaisingEvents = false;
+            }
+        }
+
+        private IObservable<string> FileSystemWatcherObservable()
+        {
+            watcher = new FileSystemWatcher(configuration.DefaultReplayDirectory, configuration.ReplayFilter);
+            watcher.IncludeSubdirectories = true;
+
+            return Observable
+                .FromEventPattern<FileSystemEventArgs>(watcher, "Created")
+                .Select(evt => evt.EventArgs.FullPath);
+        }
+
+        private IObservable<string> PollingObservable()
+        {
+            return new DirectoryInfo(configuration.DefaultReplayDirectory)
+                .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
+                .OrderBy(f => f.CreationTimeUtc)
+                .Select(f => f.FullName)
+                .ToObservable();
         }
     }
 }
