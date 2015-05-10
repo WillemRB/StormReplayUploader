@@ -2,7 +2,7 @@
 using System.Configuration;
 using System.IO;
 
-namespace StormReplayUploader
+namespace StormReplayUploader.Config
 {
     public class UploaderConfiguration : ConfigurationSection
     {

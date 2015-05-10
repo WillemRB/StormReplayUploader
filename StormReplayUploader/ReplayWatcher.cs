@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using StormReplayUploader.Config;
 using StormReplayUploader.Targets;
 
 namespace StormReplayUploader

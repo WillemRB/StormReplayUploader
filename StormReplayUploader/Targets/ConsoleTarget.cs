@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {

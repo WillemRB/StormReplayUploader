@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StormReplayUploader {
+namespace StormReplayUploader.Config {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

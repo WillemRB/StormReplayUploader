@@ -63,18 +63,18 @@
     <Compile Include="Targets\ConsoleTarget.cs" />
     <Compile Include="Targets\EventLogTarget.cs" />
     <Compile Include="Targets\IStormReplayTarget.cs" />
-    <Compile Include="Settings.Designer.cs">
+    <Compile Include="Config\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="UploaderConfiguration.cs" />
-    <Compile Include="UploaderSettings.cs" />
+    <Compile Include="Config\UploaderConfiguration.cs" />
+    <Compile Include="Config\UploaderSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="Settings.settings">
+    <None Include="Config\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
