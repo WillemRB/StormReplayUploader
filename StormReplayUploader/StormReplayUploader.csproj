@@ -61,6 +61,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplayWatcher.cs" />
     <Compile Include="Targets\ConsoleTarget.cs" />
+    <Compile Include="Targets\EventLogTarget.cs" />
     <Compile Include="Targets\IStormReplayTarget.cs" />
     <Compile Include="UploaderConfiguration.cs" />
   </ItemGroup>
