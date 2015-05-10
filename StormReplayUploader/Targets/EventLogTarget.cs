@@ -10,6 +10,11 @@ namespace StormReplayUploader.Targets
 
         private bool available;
 
+        public string Name
+        {
+            get { return "EventLogTarget"; }
+        }
+
         public EventLogTarget()
         {
             try
