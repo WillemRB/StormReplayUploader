@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StormReplayUploader.Targets
+namespace StormReplayUploader
 {
     public interface IStormReplayTarget
     {

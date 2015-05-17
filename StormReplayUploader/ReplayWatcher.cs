@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using StormReplayUploader.Config;
-using StormReplayUploader.Targets;
 
 namespace StormReplayUploader
 {
@@ -22,15 +22,20 @@ namespace StormReplayUploader
 
         public ReplayWatcher()
         {
-            configuration = new UploaderConfiguration();
+            configuration = (UploaderConfiguration)ConfigurationManager.GetSection("uploaderConfiguration");
             targets = new List<IStormReplayTarget>();
+
+            foreach (var element in configuration.Targets)
+            {
+                var target = (TargetElement)element;
+                var obj = Activator.CreateInstance(target.AssemblyName, target.TypeName);
+                targets.Add(obj.Unwrap() as IStormReplayTarget);
+            }
 
             //var observable = FileSystemWatcherObservable();
             var observable = PollingObservable();
 
-            var target = new ConsoleTarget();
-            target.Subscribe(observable);
-            targets.Add(target);
+            targets.ForEach(t => t.Subscribe(observable));
         }
 
         public void Start()

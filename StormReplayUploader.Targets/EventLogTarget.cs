@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Security;
+using StormReplayUploader;
 
 namespace StormReplayUploader.Targets
 {
@@ -26,7 +27,7 @@ namespace StormReplayUploader.Targets
 
                 available = true;
             }
-            catch (SecurityException) 
+            catch (SecurityException)
             {
                 available = false;
             }

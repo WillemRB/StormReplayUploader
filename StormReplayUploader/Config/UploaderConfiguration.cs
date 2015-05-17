@@ -18,6 +18,16 @@ namespace StormReplayUploader.Config
                 this["replayDirectory"] = value;
             }
         }
+        
+        [ConfigurationProperty("targets")]
+        [ConfigurationCollection(typeof(TargetCollection), AddItemName = "target")]
+        public TargetCollection Targets
+        {
+            get
+            {
+                return (TargetCollection)base["targets"];
+            }
+        }
 
         public string DefaultReplayDirectory
         {
@@ -33,6 +43,48 @@ namespace StormReplayUploader.Config
             get
             {
                 return "*.StormReplay";
+            }
+        }
+    }
+
+    public class TargetCollection : ConfigurationElementCollection
+    {
+        protected override ConfigurationElement CreateNewElement()
+        {
+            return new TargetElement();
+        }
+
+        protected override object GetElementKey(ConfigurationElement element)
+        {
+            return ((TargetElement)element).AssemblyName;
+        }
+    }
+
+    public class TargetElement : ConfigurationElement
+    {
+        [ConfigurationProperty("assemblyName")]
+        public string AssemblyName
+        {
+            get
+            {
+                return (string)this["assemblyName"];
+            }
+            set
+            {
+                this["assemblyName"] = value;
+            }
+        }
+
+        [ConfigurationProperty("typeName")]
+        public string TypeName
+        {
+            get
+            {
+                return (string)this["typeName"];
+            }
+            set
+            {
+                this["typeName"] = value;
             }
         }
     }
