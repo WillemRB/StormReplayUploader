@@ -58,7 +58,8 @@ namespace StormReplayUploader.Config
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((TargetElement)element).AssemblyName;
+            var target = (TargetElement)element;
+            return target.AssemblyName + "+" + target.TypeName;
         }
     }
 
