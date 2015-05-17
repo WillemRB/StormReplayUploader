@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Security;
-using StormReplayUploader;
 
 namespace StormReplayUploader.Targets
 {
@@ -33,18 +33,18 @@ namespace StormReplayUploader.Targets
             }
         }
 
-        public void Notify(string path)
+        public void Notify(FileInfo fileInfo)
         {
             if (!available)
             {
                 return;
             }
 
-            var message = String.Format("File: {0}", path);
+            var message = String.Format("File: {0}", fileInfo.FullName);
             EventLog.WriteEntry(sourceName, message, EventLogEntryType.Information, 1);
         }
 
-        public void Subscribe(IObservable<string> observable)
+        public void Subscribe(IObservable<FileInfo> observable)
         {
             observable.Subscribe(Notify);
         }

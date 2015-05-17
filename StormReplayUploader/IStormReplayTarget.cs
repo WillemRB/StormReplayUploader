@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace StormReplayUploader
 {
@@ -6,8 +7,8 @@ namespace StormReplayUploader
     {
         string Name { get; }
 
-        void Notify(string path);
+        void Notify(FileInfo fileInfo);
 
-        void Subscribe(IObservable<string> observable);
+        void Subscribe(IObservable<FileInfo> observable);
     }
 }

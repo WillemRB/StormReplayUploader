@@ -54,22 +54,21 @@ namespace StormReplayUploader
             }
         }
 
-        private IObservable<string> FileSystemWatcherObservable()
+        private IObservable<FileInfo> FileSystemWatcherObservable()
         {
             watcher = new FileSystemWatcher(configuration.ReplayDirectory, configuration.ReplayFilter);
             watcher.IncludeSubdirectories = true;
 
             return Observable
                 .FromEventPattern<FileSystemEventArgs>(watcher, "Created")
-                .Select(evt => evt.EventArgs.FullPath);
+                .Select(evt => new FileInfo(evt.EventArgs.FullPath));
         }
 
-        private IObservable<string> PollingObservable()
+        private IObservable<FileInfo> PollingObservable()
         {
             return new DirectoryInfo(configuration.ReplayDirectory)
                 .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
                 .OrderBy(f => f.CreationTimeUtc)
-                .Select(f => f.FullName)
                 .ToObservable();
         }
     }

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Threading;
-using StormReplayUploader;
+using System.IO;
 using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
@@ -12,12 +11,12 @@ namespace StormReplayUploader.Targets
             get { return "ConsoleTarget"; }
         }
 
-        public void Notify(string path)
+        public void Notify(FileInfo fileInfo)
         {
-            Console.WriteLine(path);
+            Console.WriteLine(fileInfo.FullName);
         }
 
-        public void Subscribe(IObservable<string> observable)
+        public void Subscribe(IObservable<FileInfo> observable)
         {
             var dt = UploaderSettings.Get(Name);
 
