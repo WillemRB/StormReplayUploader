@@ -54,6 +54,11 @@ namespace StormReplayUploader
             }
         }
 
+        /// <summary>
+        /// Returns an Observable that creates a new event whenever a new file is created that matches
+        /// the filter.
+        /// </summary>
+        /// <returns></returns>
         private IObservable<FileInfo> FileSystemWatcherObservable()
         {
             watcher = new FileSystemWatcher(configuration.ReplayDirectory, configuration.ReplayFilter);
@@ -64,6 +69,11 @@ namespace StormReplayUploader
                 .Select(evt => new FileInfo(evt.EventArgs.FullPath));
         }
 
+        /// <summary>
+        /// Returns an Observable of all the file in a directory matching a filter sorted on
+        /// the creation time in ascending order.
+        /// </summary>
+        /// <returns></returns>
         private IObservable<FileInfo> PollingObservable()
         {
             return new DirectoryInfo(configuration.ReplayDirectory)
