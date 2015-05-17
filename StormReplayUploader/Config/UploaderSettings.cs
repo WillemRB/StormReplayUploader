@@ -15,13 +15,13 @@ namespace StormReplayUploader.Config
         {
             try
             {
-                var value = Settings.Default[name];
+                var value = (long)Settings.Default[name];
 
-                return value == null ? new DateTime() : (DateTime)value;
+                return DateTime.FromFileTimeUtc(value);
             }
             catch (SettingsPropertyNotFoundException)
             {
-                return new DateTime();
+                return DateTime.FromFileTimeUtc(0);
             }
         }
 
@@ -33,7 +33,7 @@ namespace StormReplayUploader.Config
         /// <param name="dateTime"></param>
         public static void Update(string name, DateTime dateTime)
         {
-            Settings.Default[name] = dateTime.ToString();
+            Settings.Default[name] = dateTime.ToFileTimeUtc();
             Settings.Default.Save();
         }
     }
