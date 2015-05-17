@@ -11,7 +11,9 @@ namespace StormReplayUploader.Config
         {
             get
             {
-                return (string)this["replayDirectory"];
+                var replayDirectory = (string)this["replayDirectory"];
+
+                return String.IsNullOrEmpty(replayDirectory) ? DefaultReplayDirectory : replayDirectory;
             }
             set
             {

@@ -56,7 +56,7 @@ namespace StormReplayUploader
 
         private IObservable<string> FileSystemWatcherObservable()
         {
-            watcher = new FileSystemWatcher(configuration.DefaultReplayDirectory, configuration.ReplayFilter);
+            watcher = new FileSystemWatcher(configuration.ReplayDirectory, configuration.ReplayFilter);
             watcher.IncludeSubdirectories = true;
 
             return Observable
@@ -66,7 +66,7 @@ namespace StormReplayUploader
 
         private IObservable<string> PollingObservable()
         {
-            return new DirectoryInfo(configuration.DefaultReplayDirectory)
+            return new DirectoryInfo(configuration.ReplayDirectory)
                 .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
                 .OrderBy(f => f.CreationTimeUtc)
                 .Select(f => f.FullName)
