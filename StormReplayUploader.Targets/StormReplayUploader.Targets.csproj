@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Reactive.Core">
       <HintPath>..\StormReplayUploader\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
     </Reference>
@@ -47,6 +48,7 @@
   <ItemGroup>
     <Compile Include="ConsoleTarget.cs" />
     <Compile Include="EventLogTarget.cs" />
+    <Compile Include="HeroGGTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
