@@ -25,14 +25,25 @@ namespace StormReplayUploader
         }
 
         /// <summary>
+        /// Logs a message to the EventLog at the provided log level.
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <param name="data"></param>
+        /// <param name="args"></param>
+        public static void Log(EventLogEntryType logLevel, string data, params object[] args)
+        {
+            var message = String.Format(data, args);
+            EventLog.WriteEntry(Source, message, logLevel);
+        }
+
+        /// <summary>
         /// Log an informational message to the EventLog.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="args"></param>
         public static void LogInfo(string info, params object[] args)
         {
-            var message = String.Format(info, args);
-            EventLog.WriteEntry(Source, message, EventLogEntryType.Information);
+            Log(EventLogEntryType.Information, info, args);
         }
 
         /// <summary>
@@ -42,8 +53,7 @@ namespace StormReplayUploader
         /// <param name="args"></param>
         public static void LogWarning(string warning, params object[] args)
         {
-            var message = String.Format(warning, args);
-            EventLog.WriteEntry(Source, message, EventLogEntryType.Warning);
+            Log(EventLogEntryType.Warning, warning, args);
         }
 
         /// <summary>
@@ -53,8 +63,7 @@ namespace StormReplayUploader
         /// <param name="args"></param>
         public static void LogError(string error, params object[] args)
         {
-            var message = String.Format(error, args);
-            EventLog.WriteEntry(Source, message, EventLogEntryType.Error);
+            Log(EventLogEntryType.Error, error, args);
         }
     }
 }
