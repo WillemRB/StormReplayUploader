@@ -73,9 +73,17 @@ namespace StormReplayUploader
         /// Returns an Observable of all the file in a directory matching a filter sorted on
         /// the creation time in ascending order.
         /// </summary>
+        /// <remarks>
+        /// If the directory where replay files are expected doesn't exist it will be created.
+        /// </remarks>
         /// <returns></returns>
         private IObservable<FileInfo> PollingObservable()
         {
+            if (!Directory.Exists(configuration.ReplayDirectory))
+            {
+                Directory.CreateDirectory(configuration.ReplayDirectory);
+            }
+
             return new DirectoryInfo(configuration.ReplayDirectory)
                 .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
                 .OrderBy(f => f.CreationTimeUtc)
