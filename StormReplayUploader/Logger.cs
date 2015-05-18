@@ -18,7 +18,7 @@ namespace StormReplayUploader
         /// </remarks>
         public static void Init()
         {
-            if (!EventLog.Exists(Source))
+            if (!EventLog.SourceExists(Source))
             {
                 EventLog.CreateEventSource(Source, LogName, ".");
             }
