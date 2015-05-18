@@ -2,11 +2,15 @@
 using System.Diagnostics;
 using System.IO;
 using System.Security;
+using System.Reactive.Linq;
+using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {
     public class EventLogTarget : IStormReplayTarget
     {
+        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
+
         private readonly string sourceName = "StormReplay Uploader";
 
         private bool available;
@@ -46,7 +50,9 @@ namespace StormReplayUploader.Targets
 
         public void Subscribe(IObservable<FileInfo> observable)
         {
-            observable.Subscribe(Notify);
+            observable
+                .Where(f => f.CreationTimeUtc > LastCommit)
+                .Subscribe(Notify);
         }
     }
 }

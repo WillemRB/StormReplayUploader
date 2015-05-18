@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Reactive.Linq;
+using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {
@@ -10,6 +12,8 @@ namespace StormReplayUploader.Targets
     /// </summary>
     public class HeroGGTarget : IStormReplayTarget
     {
+        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
+
         public string Name
         {
             get { return "HeroGG"; }
@@ -27,13 +31,16 @@ namespace StormReplayUploader.Targets
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     // Success
+                    UploaderState.Update(Name, fileInfo.CreationTimeUtc);
                 }
             }
         }
 
         public void Subscribe(IObservable<FileInfo> observable)
         {
-            observable.Subscribe(Notify);
+            observable
+                .Where(f => f.CreationTimeUtc > LastCommit)
+                .Subscribe(Notify);
         }
     }
 }

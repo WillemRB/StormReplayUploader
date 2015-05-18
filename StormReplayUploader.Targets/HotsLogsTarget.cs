@@ -3,6 +3,8 @@ using System.IO;
 using System.Net;
 using Amazon.S3;
 using Amazon.S3.Model;
+using System.Reactive.Linq;
+using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {
@@ -14,6 +16,8 @@ namespace StormReplayUploader.Targets
     /// </remarks>
     public class HotsLogsTarget : IStormReplayTarget
     {
+        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
+
         private readonly string ACCESS_KEY_ID = "AKIAIESBHEUH4KAAG4UA";
         private readonly string SECRET_ACCESS_KEY = "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";
 
@@ -43,12 +47,15 @@ namespace StormReplayUploader.Targets
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
                 // Success
+                UploaderState.Update(Name, fileInfo.CreationTimeUtc);
             }
         }
 
         public void Subscribe(IObservable<FileInfo> observable)
         {
-            observable.Subscribe(Notify);
+            observable
+                .Where(f => f.CreationTimeUtc > LastCommit)
+                .Subscribe(Notify);
         }
     }
 }
