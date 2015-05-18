@@ -22,6 +22,8 @@ namespace StormReplayUploader
 
         public ReplayPublisher()
         {
+            Logger.Init();
+
             configuration = (UploaderConfiguration)ConfigurationManager.GetSection("uploaderConfiguration");
             targets = new List<IStormReplayTarget>();
 
@@ -40,6 +42,8 @@ namespace StormReplayUploader
 
         public void Start()
         {
+            Logger.LogInfo("Service started...");
+
             if (watcher != null)
             {
                 watcher.EnableRaisingEvents = true;
@@ -52,6 +56,8 @@ namespace StormReplayUploader
             {
                 watcher.EnableRaisingEvents = false;
             }
+
+            Logger.LogInfo("Service stopped...");
         }
 
         /// <summary>
