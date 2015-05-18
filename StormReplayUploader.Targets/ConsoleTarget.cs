@@ -5,6 +5,12 @@ using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {
+    /// <summary>
+    /// Target that logs the filename of a StormReplay file to the Console.
+    /// </summary>
+    /// <remarks>
+    /// Not useful outside of testing and debugging.
+    /// </remarks>
     public class ConsoleTarget : IStormReplayTarget
     {
         private DateTime LastCommit { get { return UploaderSettings.Get(Name); } }

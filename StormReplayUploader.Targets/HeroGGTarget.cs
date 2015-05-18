@@ -5,6 +5,9 @@ using System.Net.Http;
 
 namespace StormReplayUploader.Targets
 {
+    /// <summary>
+    /// Target that uploads StormReplay files to the hero.gg website.
+    /// </summary>
     public class HeroGGTarget : IStormReplayTarget
     {
         public string Name

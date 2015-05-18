@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
 
 namespace StormReplayUploader.Targets
 {
+    /// <summary>
+    /// Target that uploads StormReplay files to the hotslogs.com website.
+    /// </summary>
+    /// <remarks>
+    /// HotsLogs runs on AWS. Files are uploaded to a S3 bucket.
+    /// </remarks>
     public class HotsLogsTarget : IStormReplayTarget
     {
         private readonly string ACCESS_KEY_ID = "AKIAIESBHEUH4KAAG4UA";
