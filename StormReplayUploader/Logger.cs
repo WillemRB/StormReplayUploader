@@ -5,8 +5,14 @@ namespace StormReplayUploader
 {
     public class Logger
     {
+        /// <summary>
+        /// The EventLog Source.
+        /// </summary>
         private static readonly string Source = "StormReplay Uploader";
 
+        /// <summary>
+        /// The EventLog in which the source should exist. Or where it will be created.
+        /// </summary>
         private static readonly string LogName = "Application";
 
         /// <summary>
@@ -20,7 +26,8 @@ namespace StormReplayUploader
         {
             if (!EventLog.SourceExists(Source))
             {
-                EventLog.CreateEventSource(Source, LogName, ".");
+                var creationData = new EventSourceCreationData(Source, LogName);
+                EventLog.CreateEventSource(creationData);
             }
         }
 
