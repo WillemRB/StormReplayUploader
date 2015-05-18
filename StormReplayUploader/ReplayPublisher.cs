@@ -12,7 +12,7 @@ namespace StormReplayUploader
     /// <summary>
     /// Class that monitors a directory for new replay files and notifies all registered targets.
     /// </summary>
-    public class ReplayWatcher
+    public class ReplayPublisher
     {
         private FileSystemWatcher watcher;
 
@@ -20,7 +20,7 @@ namespace StormReplayUploader
 
         private UploaderConfiguration configuration;
 
-        public ReplayWatcher()
+        public ReplayPublisher()
         {
             configuration = (UploaderConfiguration)ConfigurationManager.GetSection("uploaderConfiguration");
             targets = new List<IStormReplayTarget>();

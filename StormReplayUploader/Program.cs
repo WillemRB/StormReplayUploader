@@ -8,9 +8,9 @@ namespace StormReplayUploader
         {
             HostFactory.Run(x =>
             {
-                x.Service<ReplayWatcher>(s =>
+                x.Service<ReplayPublisher>(s =>
                 {
-                    s.ConstructUsing(() => new ReplayWatcher());
+                    s.ConstructUsing(() => new ReplayPublisher());
                     s.WhenStarted(watcher => watcher.Start());
                     s.WhenStopped(watcher => watcher.Stop());
                 });
