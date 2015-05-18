@@ -62,21 +62,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReplayPublisher.cs" />
     <Compile Include="IStormReplayTarget.cs" />
-    <Compile Include="Config\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="Config\UploaderConfiguration.cs" />
-    <Compile Include="Config\UploaderSettings.cs" />
+    <Compile Include="Config\UploaderState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Config\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

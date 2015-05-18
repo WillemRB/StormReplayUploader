@@ -13,7 +13,7 @@ namespace StormReplayUploader.Targets
     /// </remarks>
     public class ConsoleTarget : IStormReplayTarget
     {
-        private DateTime LastCommit { get { return UploaderSettings.Get(Name); } }
+        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
 
         public string Name
         {
@@ -24,7 +24,7 @@ namespace StormReplayUploader.Targets
         {
             Console.WriteLine(fileInfo.FullName);
 
-            UploaderSettings.Update(Name, fileInfo.CreationTimeUtc);
+            UploaderState.Update(Name, fileInfo.CreationTimeUtc);
         }
 
         public void Subscribe(IObservable<FileInfo> observable)
