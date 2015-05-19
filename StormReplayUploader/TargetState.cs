@@ -10,13 +10,15 @@ namespace StormReplayUploader
     /// </summary>
     public class TargetState
     {
+        private static readonly string Extension = ".sru";
+
         /// <summary>
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public static DateTime Get(string name)
         {
-            var fileName = name + ".sru";
+            var fileName = name + Extension;
 
             try
             {
@@ -36,7 +38,7 @@ namespace StormReplayUploader
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized the change the file {0}.{1}Exception: {2}",
+                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.{1}Exception: {2}",
                     fileName,
                     Environment.NewLine,
                     ex.ToString());
@@ -58,7 +60,7 @@ namespace StormReplayUploader
         /// <param name="dateTime"></param>
         public static void Update(string name, DateTime dateTime)
         {
-            var fileName = name + ".sru";
+            var fileName = name + Extension;
 
             try
             {
@@ -76,7 +78,7 @@ namespace StormReplayUploader
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized the change the file {0}.{1}Exception: {2}",
+                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.{1}Exception: {2}",
                     fileName,
                     Environment.NewLine,
                     ex.ToString());
