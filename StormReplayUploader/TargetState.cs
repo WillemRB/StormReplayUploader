@@ -2,13 +2,13 @@
 using System.IO;
 using System.Text;
 
-namespace StormReplayUploader.Config
+namespace StormReplayUploader
 {
     /// <summary>
     /// Class containing a Get and Update method that can be used to save the state of a Target.
     /// 
     /// </summary>
-    public class UploaderState
+    public class TargetState
     {
         /// <summary>
         /// </summary>

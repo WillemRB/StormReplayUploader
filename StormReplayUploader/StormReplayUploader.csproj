@@ -63,7 +63,7 @@
     <Compile Include="ReplayPublisher.cs" />
     <Compile Include="IStormReplayTarget.cs" />
     <Compile Include="Config\UploaderConfiguration.cs" />
-    <Compile Include="Config\UploaderState.cs" />
+    <Compile Include="TargetState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

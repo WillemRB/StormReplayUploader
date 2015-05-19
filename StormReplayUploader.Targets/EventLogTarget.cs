@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Security;
 using System.Reactive.Linq;
-using StormReplayUploader.Config;
+using System.Security;
 
 namespace StormReplayUploader.Targets
 {
     public class EventLogTarget : IStormReplayTarget
     {
-        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
+        private DateTime LastCommit { get { return TargetState.Get(Name); } }
 
         private readonly string sourceName = "StormReplay Uploader";
 

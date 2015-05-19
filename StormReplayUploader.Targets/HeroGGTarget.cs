@@ -3,7 +3,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
-using StormReplayUploader.Config;
 
 namespace StormReplayUploader.Targets
 {
@@ -12,7 +11,7 @@ namespace StormReplayUploader.Targets
     /// </summary>
     public class HeroGGTarget : IStormReplayTarget
     {
-        private DateTime LastCommit { get { return UploaderState.Get(Name); } }
+        private DateTime LastCommit { get { return TargetState.Get(Name); } }
 
         public string Name
         {
@@ -31,7 +30,7 @@ namespace StormReplayUploader.Targets
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     // Success
-                    UploaderState.Update(Name, fileInfo.CreationTimeUtc);
+                    TargetState.Update(Name, fileInfo.CreationTimeUtc);
                 }
             }
         }
