@@ -42,6 +42,7 @@ namespace StormReplayUploader
                     fileName,
                     Environment.NewLine,
                     ex.ToString());
+                throw;
             }
             catch (IOException ex)
             {
@@ -49,6 +50,7 @@ namespace StormReplayUploader
                     name,
                     Environment.NewLine,
                     ex.ToString());
+                throw;
             }
 
             return DateTime.FromFileTimeUtc(0);
@@ -66,6 +68,8 @@ namespace StormReplayUploader
             {
                 using (var stream = File.Open(fileName, FileMode.OpenOrCreate, FileAccess.Write))
                 {
+                    // Simply overwrite the data in the file. 
+                    // Because it is a timestamp it can only become longer, so there will never be leftover characters.
                     stream.Seek(0, SeekOrigin.Begin);
 
                     var data = dateTime.ToFileTimeUtc().ToString();
@@ -74,7 +78,7 @@ namespace StormReplayUploader
                     stream.Write(bytes, 0, bytes.Length);
                 }
 
-                File.SetAttributes(fileName, FileAttributes.Hidden);
+                File.SetAttributes(fileName, File.GetAttributes(fileName) | FileAttributes.Hidden);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -82,6 +86,7 @@ namespace StormReplayUploader
                     fileName,
                     Environment.NewLine,
                     ex.ToString());
+                throw;
             }
             catch (IOException ex)
             {
@@ -89,6 +94,7 @@ namespace StormReplayUploader
                     name,
                     Environment.NewLine,
                     ex.ToString());
+                throw;
             }
         }
     }
