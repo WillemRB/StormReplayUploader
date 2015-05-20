@@ -23,7 +23,7 @@ namespace StormReplayUploader
         {
             Logger.Init();
 
-            configuration = (UploaderConfiguration)ConfigurationManager.GetSection("uploaderConfiguration");
+            configuration = LoadConfiguration();
             targets = new List<IStormReplayTarget>();
 
             foreach (var element in configuration.Targets)
@@ -57,6 +57,27 @@ namespace StormReplayUploader
             }
 
             Logger.LogInfo("Service stopped...");
+        }
+
+        /// <summary>
+        /// Returns the configuration section from the app.config.
+        /// Configuration exceptions will be rethrown.
+        /// </summary>
+        /// <returns></returns>
+        private UploaderConfiguration LoadConfiguration()
+        {
+            try
+            {
+                return (UploaderConfiguration)ConfigurationManager.GetSection("uploaderConfiguration");
+            }
+            catch (ConfigurationErrorsException ex)
+            {
+                Logger.LogError("An error occured during the loading of the configuration.{0}Exception details: {1}",
+                    Environment.NewLine,
+                    ex.ToString());
+
+                throw;
+            }
         }
 
         /// <summary>
