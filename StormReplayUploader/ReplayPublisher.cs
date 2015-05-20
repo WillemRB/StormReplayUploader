@@ -11,7 +11,7 @@ namespace StormReplayUploader
     /// <summary>
     /// Class that monitors a directory for new replay files and notifies all registered targets.
     /// </summary>
-    public class ReplayPublisher
+    public class ReplayPublisher : IDisposable
     {
         private FileSystemWatcher watcher;
 
@@ -121,5 +121,24 @@ namespace StormReplayUploader
                 )
                 .Repeat();
         }
+
+        #region IDisposable Members
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (watcher != null)
+                {
+                    watcher.Dispose();
+                }
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }

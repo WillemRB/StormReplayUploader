@@ -13,7 +13,7 @@ namespace StormReplayUploader.Targets
     /// <remarks>
     /// HotsLogs runs on AWS. Files are uploaded to a S3 bucket.
     /// </remarks>
-    public class HotsLogsTarget : IStormReplayTarget
+    public class HotsLogsTarget : IStormReplayTarget, IDisposable
     {
         private DateTime LastCommit { get { return TargetState.Get(Name); } }
 
@@ -56,5 +56,21 @@ namespace StormReplayUploader.Targets
                 .Where(f => f.CreationTimeUtc > LastCommit)
                 .Subscribe(Notify);
         }
+
+        #region IDisposable Members
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                client.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }
