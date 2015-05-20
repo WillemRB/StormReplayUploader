@@ -21,7 +21,7 @@ namespace StormReplayUploader.Targets
 
         public void Notify(FileInfo fileInfo)
         {
-            Console.WriteLine(fileInfo.FullName);
+            Console.WriteLine("[{0}] {1}", DateTime.Now.ToString("HH:mm:ss"), fileInfo.Name);
 
             TargetState.Update(Name, fileInfo.CreationTimeUtc);
         }
