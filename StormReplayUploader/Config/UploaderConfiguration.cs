@@ -6,6 +6,11 @@ namespace StormReplayUploader.Config
 {
     public class UploaderConfiguration : ConfigurationSection
     {
+        /// <summary>
+        /// The directory that will be used to upload StormReplay files from.
+        /// By default this directory is found in the Document and Settings folder
+        /// of the user.
+        /// </summary>
         [ConfigurationProperty("replayDirectory", IsRequired = false)]
         public string ReplayDirectory
         {
@@ -15,12 +20,26 @@ namespace StormReplayUploader.Config
 
                 return String.IsNullOrEmpty(replayDirectory) ? DefaultReplayDirectory : replayDirectory;
             }
-            set
-            {
-                this["replayDirectory"] = value;
-            }
         }
         
+        /// <summary>
+        /// The interval between updates in seconds. 
+        /// </summary>
+        /// <remarks>
+        /// The default interval is to run every 15 minutes.
+        /// The minimum interval is 1 minute.
+        /// </remarks>
+        [ConfigurationProperty("updateInterval", IsRequired = false)]
+        public int UpdateInterval
+        {
+            get
+            {
+                var interval = (int)this["updateInterval"];
+
+                return (interval == 0) ? 900 : Math.Max(interval, 60);
+            }
+        }
+
         [ConfigurationProperty("targets")]
         [ConfigurationCollection(typeof(TargetCollection), AddItemName = "target")]
         public TargetCollection Targets

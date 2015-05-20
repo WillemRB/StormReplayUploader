@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using StormReplayUploader.Config;
 
@@ -35,7 +34,7 @@ namespace StormReplayUploader
             }
 
             //var observable = FileSystemWatcherObservable();
-            var observable = PollingObservable();
+            var observable = IntervalObservable();
 
             targets.ForEach(t => t.Subscribe(observable));
         }
@@ -76,24 +75,30 @@ namespace StormReplayUploader
         }
 
         /// <summary>
-        /// Returns an Observable of all the file in a directory matching a filter sorted on
-        /// the creation time in ascending order.
+        /// Returns an Observable every update interval. This returned Observable
+        /// contains all the StormReplay files in the configured folder ordered by
+        /// creation time in ascending order.
         /// </summary>
-        /// <remarks>
-        /// If the directory where replay files are expected doesn't exist it will be created.
-        /// </remarks>
         /// <returns></returns>
-        private IObservable<FileInfo> PollingObservable()
+        private IObservable<FileInfo> IntervalObservable()
         {
             if (!Directory.Exists(configuration.ReplayDirectory))
             {
                 Directory.CreateDirectory(configuration.ReplayDirectory);
             }
 
-            return new DirectoryInfo(configuration.ReplayDirectory)
-                .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
-                .OrderBy(f => f.CreationTimeUtc)
-                .ToObservable();
+            return Observable
+                .Timer(TimeSpan.FromSeconds(configuration.UpdateInterval))
+                .SelectMany(
+                    Observable
+                        .Defer(() =>
+                            new DirectoryInfo(configuration.ReplayDirectory)
+                                .EnumerateFiles(configuration.ReplayFilter, SearchOption.AllDirectories)
+                                .OrderBy(f => f.CreationTimeUtc)
+                                .ToObservable()
+                        )
+                )
+                .Repeat();
         }
     }
 }
