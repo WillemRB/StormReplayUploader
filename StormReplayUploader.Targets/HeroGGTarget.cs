@@ -18,27 +18,40 @@ namespace StormReplayUploader.Targets
             get { return "HeroGG"; }
         }
 
-        public async void Notify(FileInfo fileInfo)
+        public void Notify(FileInfo fileInfo)
         {
             using (var client = new HttpClient())
             using (var stream = new StreamReader(fileInfo.FullName))
             {
                 var content = new StreamContent(stream.BaseStream);
 
-                var response = await client.PostAsync("http://upload.hero.gg/ajax/upload-replay", content);
+                client.PostAsync("http://upload.hero.gg/ajax/upload-replay", content)
+                    .ContinueWith(task =>
+                        {
+                            var response = task.Result;
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    // Success
-                    TargetState.Update(Name, fileInfo.CreationTimeUtc);
-                }
+                            var responseContent = response.Content.ReadAsStringAsync();
+
+                            Logger.LogInfo("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
+                                this.Name,
+                                fileInfo.FullName,
+                                response.StatusCode,
+                                responseContent);
+
+                            if (response.StatusCode == HttpStatusCode.OK)
+                            {
+                                // Success
+                                TargetState.Update(Name, fileInfo.CreationTimeUtc);
+                            }
+                        }
+                    );
             }
         }
 
         public void Subscribe(IObservable<FileInfo> observable)
         {
             observable
-                .Where(f => f.CreationTimeUtc > LastCommit)
+                .Where(file => file.CreationTimeUtc > LastCommit)
                 .Subscribe(Notify);
         }
     }

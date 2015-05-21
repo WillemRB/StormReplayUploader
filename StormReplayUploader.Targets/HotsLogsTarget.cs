@@ -52,7 +52,7 @@ namespace StormReplayUploader.Targets
         /// Uploads the replay file to a S3 bucket and notifies the HotsLogs website.
         /// </summary>
         /// <param name="fileInfo"></param>
-        public async void Notify(FileInfo fileInfo)
+        public void Notify(FileInfo fileInfo)
         {
             var request = new PutObjectRequest()
             {
@@ -65,10 +65,14 @@ namespace StormReplayUploader.Targets
 
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
-                if (await NotifyHotsLogs(request.Key))
-                {
-                    TargetState.Update(Name, fileInfo.CreationTimeUtc);
-                }
+                NotifyHotsLogs(request.Key)
+                    .ContinueWith(success =>
+                    {
+                        if (success.Result)
+                        {
+                            TargetState.Update(Name, fileInfo.CreationTimeUtc);
+                        }
+                    });
             }
             else
             {
