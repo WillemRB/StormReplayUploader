@@ -45,6 +45,8 @@ namespace StormReplayUploader.Targets
 
             var message = String.Format("File: {0}", fileInfo.FullName);
             EventLog.WriteEntry(sourceName, message, EventLogEntryType.Information, 1);
+
+            TargetState.Update(Name, fileInfo.CreationTimeUtc);
         }
 
         public void Subscribe(IObservable<FileInfo> observable)
