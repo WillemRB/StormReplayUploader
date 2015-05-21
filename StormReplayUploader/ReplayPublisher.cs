@@ -19,11 +19,24 @@ namespace StormReplayUploader
 
         private UploaderConfiguration configuration;
 
+        private IObservable<FileInfo> observable;
+
         public ReplayPublisher()
         {
             Logger.Init();
 
             configuration = LoadConfiguration();
+        }
+
+        /// <summary>
+        /// When the service starts all the targets are created and will
+        /// be subscribed to the Observable.
+        /// </summary>
+        public void Start()
+        {
+            //observable = FileSystemWatcherObservable();
+            observable = IntervalObservable();
+
             targets = new List<IStormReplayTarget>();
 
             foreach (var element in configuration.Targets)
@@ -33,28 +46,36 @@ namespace StormReplayUploader
                 targets.Add(obj.Unwrap() as IStormReplayTarget);
             }
 
-            //var observable = FileSystemWatcherObservable();
-            var observable = IntervalObservable();
-
             targets.ForEach(t => t.Subscribe(observable));
-        }
-
-        public void Start()
-        {
-            Logger.LogInfo("Service started...");
 
             if (watcher != null)
             {
                 watcher.EnableRaisingEvents = true;
             }
+
+            Logger.LogInfo("Service started...");
         }
 
+        /// <summary>
+        /// Stopping the service 
+        /// </summary>
         public void Stop()
         {
             if (watcher != null)
             {
                 watcher.EnableRaisingEvents = false;
             }
+
+            foreach(var target in targets)
+            {
+                if (target is IDisposable)
+                {
+                    ((IDisposable)target).Dispose();
+                }
+            }
+
+            targets.Clear();
+            observable = null;
 
             Logger.LogInfo("Service stopped...");
         }
