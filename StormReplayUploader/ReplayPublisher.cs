@@ -93,8 +93,7 @@ namespace StormReplayUploader
             }
             catch (ConfigurationErrorsException ex)
             {
-                Logger.LogError("An error occured during the loading of the configuration.{0}Exception details: {1}",
-                    Environment.NewLine,
+                Logger.LogError("An error occured during the loading of the configuration.\nException details: {0}",
                     ex.ToString());
 
                 throw;

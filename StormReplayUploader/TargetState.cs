@@ -38,17 +38,15 @@ namespace StormReplayUploader
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.{1}Exception: {2}",
+                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.\nException: {1}",
                     fileName,
-                    Environment.NewLine,
                     ex.ToString());
                 throw;
             }
             catch (IOException ex)
             {
-                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.{1}Exception: {2}",
+                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.\nException: {1}",
                     name,
-                    Environment.NewLine,
                     ex.ToString());
                 throw;
             }
@@ -82,17 +80,15 @@ namespace StormReplayUploader
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.{1}Exception: {2}",
+                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.\nException: {1}",
                     fileName,
-                    Environment.NewLine,
                     ex.ToString());
                 throw;
             }
             catch (IOException ex)
             {
-                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.{1}Exception: {2}",
+                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.\nException: {1}",
                     name,
-                    Environment.NewLine,
                     ex.ToString());
                 throw;
             }
