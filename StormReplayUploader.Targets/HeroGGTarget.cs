@@ -22,25 +22,26 @@ namespace StormReplayUploader.Targets
         {
             using (var client = new HttpClient())
             using (var stream = new StreamReader(fileInfo.FullName))
+            using (var content = new StreamContent(stream.BaseStream))
             {
-                var content = new StreamContent(stream.BaseStream);
-
                 client.PostAsync("http://upload.hero.gg/ajax/upload-replay", content)
                     .ContinueWith(task =>
                         {
                             var response = task.Result;
 
-                            var responseContent = response.Content.ReadAsStringAsync();
-
-                            Logger.LogInfo("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
-                                this.Name,
-                                fileInfo.FullName,
-                                response.StatusCode,
-                                responseContent);
+                            var responseContent = response.Content.ReadAsStringAsync()
+                                .ContinueWith(contentTask =>
+                                    {
+                                        Logger.LogInfo("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
+                                            this.Name,
+                                            fileInfo.FullName,
+                                            response.StatusCode,
+                                            contentTask.Result);
+                                    }
+                            );
 
                             if (response.StatusCode == HttpStatusCode.OK)
                             {
-                                // Success
                                 TargetState.Update(Name, fileInfo.CreationTimeUtc);
                             }
                         }
