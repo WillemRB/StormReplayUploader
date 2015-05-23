@@ -53,7 +53,8 @@ namespace StormReplayUploader
                 watcher.EnableRaisingEvents = true;
             }
 
-            Logger.LogInfo("Service started...");
+            Logger.LogInfo("Watching: {0}\n\nService started...",
+                configuration.ReplayDirectory);
         }
 
         /// <summary>
@@ -129,7 +130,10 @@ namespace StormReplayUploader
             }
 
             return Observable
-                .Timer(TimeSpan.FromSeconds(configuration.UpdateInterval))
+                .Timer(
+                    DateTimeOffset.Now,
+                    TimeSpan.FromSeconds(configuration.UpdateInterval)
+                )
                 .SelectMany(
                     Observable
                         .Defer(() =>
