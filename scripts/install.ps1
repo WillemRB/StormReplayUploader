@@ -1,5 +1,7 @@
+$configFile = "StormReplayUploader.exe.config"
+
 # Load configuration
-$config = [xml](Get-Content "StormReplayUploader.exe.config")
+$config = [xml](Get-Content $configFile)
  
 # Update attribute with path if it is empty
 $node = $config.SelectSingleNode("//uploaderConfiguration")
@@ -14,7 +16,7 @@ if ($node.replayDirectory -eq "")
 }
  
 # Save the result
-$config.Save()
+$config.Save($configFile)
 
 # Install service and start it
 .\StormReplayUploader.exe install --localsystem --autostart
