@@ -1,5 +1,5 @@
 # Load configuration
-$config = [xml](Get-Content "app.config")
+$config = [xml](Get-Content "StormReplayUploader.exe.config")
  
 # Update attribute with path if it is empty
 $node = $config.SelectSingleNode("//uploaderConfiguration")
