@@ -12,6 +12,7 @@ if ($node.replayDirectory -eq "")
 	$hotsFolder = Join-Path $myDocuments "Heroes of the Storm"
 	$replayFolder = Join-Path $hotsFolder "Accounts"
 
+	Write-Host "Setting Heroes of the Storm replay directory to $replayDirectory" 
     $node.replayDirectory = $replayFolder.ToString()
 }
  
@@ -21,3 +22,4 @@ $config.Save($configFile)
 # Install service and start it
 .\StormReplayUploader.exe install --localsystem --autostart
 .\StormReplayUploader.exe start 
+
