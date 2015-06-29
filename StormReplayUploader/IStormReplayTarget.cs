@@ -6,15 +6,12 @@ namespace StormReplayUploader
     public interface IStormReplayTarget
     {
         /// <summary>
-        /// The name that is given to the Target.
+        /// The unique name of the Target.
         /// </summary>
-        /// <remarks>
-        /// This should be a unique value between other targets.
-        /// </remarks>
         string Name { get; }
 
         /// <summary>
-        /// Handle the notification of a new event.
+        /// Handle a new StormReplay file.
         /// </summary>
         /// <param name="fileInfo"></param>
         void Notify(FileInfo fileInfo);
