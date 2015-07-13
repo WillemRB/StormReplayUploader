@@ -4,6 +4,8 @@
 
 ;--------------------------------
 
+!include "nsisXML.nsh"
+
 !macro PowerShellExecLogMacro PSCommand
   InitPluginsDir
   ;Save command in a temp file
@@ -55,6 +57,12 @@ Page instfiles
 
 ;--------------------------------
 
+Function "FindHotsReplayFolderPath"
+  ; Returns the default path to the StormReplay files on this machine
+  ReadRegStr $4 HKCU "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" Personal
+  StrCpy $4 "$4\Heroes of the Storm\Accounts"
+FunctionEnd
+
 ; The stuff to install
 Section "Install" ;No components page, name is not important
 
@@ -79,10 +87,30 @@ Section "Install" ;No components page, name is not important
   
   File StormReplayUploader\bin\Release\install.ps1
   File StormReplayUploader\bin\Release\uninstall.ps1
+  File StormReplayUploader\bin\Release\start.ps1
   
-  ;${PowerShellExecFileLog} "$INSTDIR\install.ps1"
-  ${PowerShellExecLog} ""
+  ; Update configuration file
+  Call "FindHotsReplayFolderPath"
   
-  nsExec::ExecToLog StormReplayUploader.exe install --localsystem --autostart
+  ; Wisou XML  Plugin
+  ;nsisXML::create
+  ;nsisXML::load $INSTDIR\StormReplayUploader.exe.config
+  ;DetailPrint "Loaded file: $0"
+  ;DetailPrint "Root is $1"
+  ;nsisXML::select '/configuration/uploaderConfiguration'
+  ;DetailPrint "Reference is $2"
+  ;nsisXML::getAttribute "replayDirectory"
+  ;nsisXML::setAttribute "replayDirectory" $4
+  ;nsisXML::save $INSTDIR\StormReplayUploader.exe.config
+  
+  ; Joel XML  Plugin
+  ${nsisXML->OpenXML} $INSTDIR\StormReplayUploader.exe.config
+  ${nsisXML->SetElementAttr} "/configuration/uploaderConfiguration" "replayDirectory" $4
+  ${nsisXML->CloseXML}
+  
+  ${PowerShellExecFileLog} "$INSTDIR\start.ps1"
+  
+  ; Freezes the installation
+  ;nsExec::ExecToLog StormReplayUploader.exe install --localsystem --autostart
   ;nsExec::ExecToLog
 SectionEnd ; end the section

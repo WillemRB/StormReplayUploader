@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StormReplayUploader", "StormReplayUploader\StormReplayUploader.csproj", "{8D038F5B-847A-45AB-94FC-DC2646EB9130}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E45F7D9E-A85D-4534-A301-FFBEE56DE34F}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\install.ps1 = scripts\install.ps1
+		scripts\start.ps1 = scripts\start.ps1
 		scripts\uninstall.ps1 = scripts\uninstall.ps1
 	EndProjectSection
 EndProject

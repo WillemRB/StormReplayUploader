@@ -27,7 +27,7 @@ namespace StormReplayUploader.Config
         /// </summary>
         /// <remarks>
         /// The default interval is to run every 15 minutes.
-        /// The minimum interval is 1 minute.
+        /// The minimum interval is 5 minutes.
         /// </remarks>
         [ConfigurationProperty("updateInterval", IsRequired = false)]
         public int UpdateInterval
@@ -36,7 +36,7 @@ namespace StormReplayUploader.Config
             {
                 var interval = (int)this["updateInterval"];
 
-                return (interval == 0) ? 900 : Math.Max(interval, 60);
+                return (interval == 0) ? 900 : Math.Max(interval, 300);
             }
         }
 
@@ -50,6 +50,10 @@ namespace StormReplayUploader.Config
             }
         }
 
+        /// <summary>
+        /// Returns the path to the replay files for the current user.
+        /// But because the service runs using a special account this does not work.
+        /// </summary>
         public string DefaultReplayDirectory
         {
             get

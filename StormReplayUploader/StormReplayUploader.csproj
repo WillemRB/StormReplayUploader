@@ -72,7 +72,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>start xcopy "$(SolutionDir)scripts\*.ps1" "$(TargetDir)" /Y /R</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)scripts\*.ps1" "$(TargetDir)" /Y /R</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
