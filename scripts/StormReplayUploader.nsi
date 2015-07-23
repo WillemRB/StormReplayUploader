@@ -85,6 +85,10 @@ Section "Install" ;No components page, name is not important
   
   File StormReplayUploader\bin\Release\StormReplayUploader.Targets.dll
   
+  File StormReplayUploader\bin\Release\Serilog.dll
+  File StormReplayUploader\bin\Release\Serilog.FullNetFx.dll
+  File StormReplayUploader\bin\Release\Serilog.Sinks.EventLog.dll
+  
   File StormReplayUploader\bin\Release\install.ps1
   File StormReplayUploader\bin\Release\uninstall.ps1
   File StormReplayUploader\bin\Release\start.ps1
