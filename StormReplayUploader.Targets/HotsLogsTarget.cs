@@ -83,9 +83,7 @@ namespace StormReplayUploader.Targets
             }
             else
             {
-                Logger.LogWarning("File {0} was no succesfully uploaded to the HotsLogs S3 bucket.\nReturned statuscode: {1}", 
-                    fileInfo.FullName,
-                    response.HttpStatusCode);
+                ReplayPublisher.Log.Warning("File {filePath} was no succesfully uploaded to the HotsLogs S3 bucket.\nReturned statuscode: {statusCode}", fileInfo.FullName, response.HttpStatusCode);
             }
         }
 
@@ -108,14 +106,12 @@ namespace StormReplayUploader.Targets
 
                 var httpResponse = await httpClient.SendAsync(httpRequest);
 
-                var content = await httpResponse.Content.ReadAsStringAsync();
+                var response = await httpResponse.Content.ReadAsStringAsync();
 
-                Logger.LogInfo("Send a request to {0}.\nResponse: {1}",
-                    uri,
-                    content);
+                ReplayPublisher.Log.Information("Send a request to {uri}.\nResponse: {response}", uri, response);
 
                 // If HotsLogs is in maintenance, stop processing files.
-                if (content.Equals("Maintenance"))
+                if (response.Equals("Maintenance"))
                 {
                         maintenance = true;
                         return false;

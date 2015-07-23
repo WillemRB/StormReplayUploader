@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
+using Serilog;
 using StormReplayUploader.Config;
 
 namespace StormReplayUploader
@@ -13,6 +14,8 @@ namespace StormReplayUploader
     /// </summary>
     public class ReplayPublisher : IDisposable
     {
+        public static ILogger Log { get; private set; }
+
         private FileSystemWatcher watcher;
 
         private List<IStormReplayTarget> targets;
@@ -23,7 +26,9 @@ namespace StormReplayUploader
 
         public ReplayPublisher()
         {
-            Logger.Init();
+            Log = new LoggerConfiguration()
+                .WriteTo.EventLog("StormReplay Uploader", "Application")
+                .CreateLogger();
 
             configuration = LoadConfiguration();
         }
@@ -53,8 +58,7 @@ namespace StormReplayUploader
                 watcher.EnableRaisingEvents = true;
             }
 
-            Logger.LogInfo("Watching: {0}\n\nService started...",
-                configuration.ReplayDirectory);
+            Log.Information("Watching: {directory}\n\nService started...",  configuration.ReplayDirectory);
         }
 
         /// <summary>
@@ -78,7 +82,7 @@ namespace StormReplayUploader
             targets.Clear();
             observable = null;
 
-            Logger.LogInfo("Service stopped...");
+            Log.Information("Service stopped...");
         }
 
         /// <summary>
@@ -94,9 +98,7 @@ namespace StormReplayUploader
             }
             catch (ConfigurationErrorsException ex)
             {
-                Logger.LogError("An error occured during the loading of the configuration.\nException details: {0}",
-                    ex.ToString());
-
+                Log.Error("An error occured during the loading of the configuration.\nException details: {exception}", ex.ToString());
                 throw;
             }
         }

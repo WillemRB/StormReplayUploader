@@ -32,7 +32,7 @@ namespace StormReplayUploader.Targets
                             var responseContent = response.Content.ReadAsStringAsync()
                                 .ContinueWith(contentTask =>
                                     {
-                                        Logger.LogInfo("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
+                                        ReplayPublisher.Log.Information("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
                                             this.Name,
                                             fileInfo.FullName,
                                             response.StatusCode,

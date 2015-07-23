@@ -33,21 +33,18 @@ namespace StormReplayUploader
             catch (FileNotFoundException)
             {
                 // Probably first run or the file was removed. 
-                Logger.LogWarning("The file {0} does not exist. Using default value instead.",
-                    fileName);
+                ReplayPublisher.Log.Warning("The file {fileName} does not exist. Using default value instead.", fileName);
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.\nException: {1}",
+                ReplayPublisher.Log.Error("StormReplay Uploader is not authorized to change the file {fileName}.\nException: {exception}",
                     fileName,
                     ex.ToString());
                 throw;
             }
             catch (IOException ex)
             {
-                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.\nException: {1}",
-                    name,
-                    ex.ToString());
+                ReplayPublisher.Log.Error("An IOException occured during the process of updating the state of the Target {target}.\nException: {exception}", name, ex.ToString());
                 throw;
             }
 
@@ -80,16 +77,12 @@ namespace StormReplayUploader
             }
             catch (UnauthorizedAccessException ex)
             {
-                Logger.LogError("StormReplay Uploader is not authorized to change the file {0}.\nException: {1}",
-                    fileName,
-                    ex.ToString());
+                ReplayPublisher.Log.Error("StormReplay Uploader is not authorized to change the file {fileName}.\nException: {exception}", fileName, ex.ToString());
                 throw;
             }
             catch (IOException ex)
             {
-                Logger.LogError("An IOException occured during the process of updating the state of the Target {0}.\nException: {1}",
-                    name,
-                    ex.ToString());
+                ReplayPublisher.Log.Error("An IOException occured during the process of updating the state of the Target {name}.\nException: {exception}", name, ex.ToString());
                 throw;
             }
         }
