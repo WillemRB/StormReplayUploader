@@ -49,7 +49,7 @@ namespace StormReplayUploader.Targets
             var s3Config = new AmazonS3Config()
             {
                 ServiceURL = "s3.amazonaws.com",
-                RegionEndpoint = Amazon.RegionEndpoint.EUWest1,
+                RegionEndpoint = Amazon.RegionEndpoint.USEast1,
             };
 
             client = new AmazonS3Client(ACCESS_KEY_ID, SECRET_ACCESS_KEY, s3Config);
