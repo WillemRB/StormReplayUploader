@@ -24,7 +24,7 @@ namespace StormReplayUploader.Targets
             using (var stream = new StreamReader(fileInfo.FullName))
             using (var content = new StreamContent(stream.BaseStream))
             {
-                client.PostAsync("http://upload.hero.gg/ajax/upload-replay", content)
+                client.PostAsync("http://upload.hero.gg/ajax/upload-replay?from=StormReplayUploader", content)
                     .ContinueWith(task =>
                         {
                             var response = task.Result;
