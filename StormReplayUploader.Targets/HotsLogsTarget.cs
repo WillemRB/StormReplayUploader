@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Amazon;
 using Amazon.S3;
 using Amazon.S3.Model;
 
