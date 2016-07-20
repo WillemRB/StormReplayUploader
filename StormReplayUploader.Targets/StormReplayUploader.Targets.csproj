@@ -74,6 +74,7 @@
     <Compile Include="HeroGGTarget.cs" />
     <Compile Include="HotsLogsTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StormLogsTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StormReplayUploader\StormReplayUploader.csproj">
@@ -82,7 +83,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

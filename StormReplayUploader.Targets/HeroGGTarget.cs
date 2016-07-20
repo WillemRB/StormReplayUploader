@@ -13,14 +13,21 @@ namespace StormReplayUploader.Targets
     {
         private DateTime LastCommit { get { return TargetState.Get(Name); } }
 
+        private HttpClient client;
+
         public string Name
         {
             get { return "HeroGG"; }
         }
 
+        public HeroGGTarget()
+        {
+            client = new HttpClient();
+        }
+
+
         public void Notify(FileInfo fileInfo)
         {
-            using (var client = new HttpClient())
             using (var stream = new StreamReader(fileInfo.FullName))
             using (var content = new StreamContent(stream.BaseStream))
             {

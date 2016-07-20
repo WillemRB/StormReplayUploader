@@ -116,7 +116,7 @@ namespace StormReplayUploader.Targets
                         return false;
                 }
 
-                // Even though there are a number of other states the only thing
+                // Even though there are a number of other states, the only thing
                 // that matters is whether a file was succesfully uploaded.
                 return true;
             }
