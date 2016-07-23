@@ -25,32 +25,28 @@ namespace StormReplayUploader.Targets
 
         public void Notify(FileInfo fileInfo)
         {
-            
-            using (var stream = new StreamReader(fileInfo.FullName))
-            using (var content = new StreamContent(stream.BaseStream))
+            var content = new StreamContent(new StreamReader(fileInfo.FullName).BaseStream);
+
+            try
             {
-                client.PostAsync("http://upload.stormlogs.com/upload.php", content)
-                    .ContinueWith(task =>
-                    {
-                        var response = task.Result;
+                var response = client.PostAsync("http://upload.stormlogs.com/upload.php", content).Result;
 
-                        var responseContent = response.Content.ReadAsStringAsync()
-                            .ContinueWith(contentTask =>
-                            {
-                                ReplayPublisher.Log.Information("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
-                                        this.Name,
-                                        fileInfo.FullName,
-                                        response.StatusCode,
-                                        contentTask.Result);
-                            }
-                        );
+                var message = response.Content.ReadAsStringAsync().Result;
 
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            TargetState.Update(Name, fileInfo.CreationTimeUtc);
-                        }
-                    }
-                    );
+                ReplayPublisher.Log.Information("Target: {0}\nFile: {1}\nResponse: {2}\nResponse content: {3}",
+                    this.Name,
+                    fileInfo.FullName,
+                    response.StatusCode,
+                    message);
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    TargetState.Update(Name, fileInfo.CreationTimeUtc);
+                }
+            }
+            finally
+            {
+                content.Dispose();
             }
         }
 
